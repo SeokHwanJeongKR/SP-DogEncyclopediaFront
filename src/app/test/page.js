@@ -1,6 +1,6 @@
 'use client'
 
-import {getMemberInfo} from "@/service/loginService";
+import {getMemberInfo, logoutUser} from "@/service/loginService";
 import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,18 @@ export default function TestPage() {
 
     const handleReissueToken = async () => {
         await reissueAccessToken();
+
+
+    }
+
+    const handleLogout = async () => {
+        const result = await logoutUser();
+        if (result) {
+            alert("로그아웃이 성공 했습니다.")
+            router.push("/");
+        } else {
+            alert("로그아웃이 실패 했습니다.")
+        }
     }
 
     useEffect(() => {
@@ -48,12 +60,21 @@ export default function TestPage() {
             <p>{memberInfo?.createdAt}</p>
             <p>{memberInfo?.role}</p>
             <p>{memberInfo?.message}</p>
-            <button
-                onClick={handleReissueToken}
-                className="bg-blue-500 text-black w-20 h-10 p-2 rounded-xl "
-            >
-                로그인
-            </button>
+            <div className="flex flex-col justify-start items-center h-50 gap-2 cursor-pointer">
+                <button
+                    onClick={handleReissueToken}
+                    className="bg-blue-500 text-black w-20 h-10 p-2 rounded-xl "
+                >
+                    재발급
+                </button>
+                <button
+                    onClick={handleLogout}
+                    className="bg-blue-500 text-black w-20 h-10 p-2 rounded-xl cursor-pointer"
+                >
+                    로그아웃
+                </button>
+            </div>
+
         </div>
 
     )
