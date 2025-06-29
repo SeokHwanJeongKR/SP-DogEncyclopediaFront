@@ -6,6 +6,7 @@ import BoardMain from "@/components/BoardMain";
 import PediaMain from "@/components/PediaMain";
 import EventMain from "@/components/EventMain";
 import SearchBar from "@/components/SearchBar";
+import ChatLauncher from "@/components/ChatLaunche";
 
 
 export default function AddPost() {
@@ -69,6 +70,7 @@ export default function AddPost() {
 
 
             </div>
+            <ChatLauncher/>
 
         </div>
 

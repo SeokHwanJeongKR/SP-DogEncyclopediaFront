@@ -116,7 +116,9 @@ export default function TopBar() {
                                 </Link>
                             </li>
                             <li className="flex justify-center items-center px-4 py-2 w-full hover:bg-orange-100 cursor-pointer hover:font-semibold">
-                                문의내역
+                                <Link href="/chat/admin/list">
+                                    문의 내역
+                                </Link>
                             </li>
 
                             <li className="flex justify-center items-center px-4 py-2 w-full hover:bg-orange-100 cursor-pointer hover:font-semibold">
