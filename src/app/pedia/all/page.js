@@ -7,12 +7,16 @@ import TopBar from "@/components/TopBar";
 import SearchBar from "@/components/SearchBar";
 import Link from "next/link";
 import ReactPaginate from "react-paginate";
+import {getMemberInfo} from "@/service/loginService";
+import ChatLauncher from "@/components/ChatLaunche";
 
 export default function BoardAllPage() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const page = searchParams.get("page");
     const [result, setResult] = useState(null);
+
+
 
     useEffect(() => {
         async function fetchPosts() {
@@ -43,6 +47,22 @@ export default function BoardAllPage() {
         router.push(`/pedia/all?${params.toString()}`);
     };
 
+    const [loginedUser, setLoginedUser] = useState("");
+
+    useEffect(() => {
+        async function loadMember() {
+            try {
+                const user = await getMemberInfo();
+                setLoginedUser(user);
+                console.log(user);
+            } catch (error) {
+                console.log("유저 정보 조회에 실패 했습니다.",error);
+            }
+        }
+
+        loadMember();
+    }, []);
+
 
     return (
 
@@ -53,15 +73,15 @@ export default function BoardAllPage() {
 
                 {/* 왼쪽 여백 공간 */}
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
 
 
-                <div className="flex flex-col bg-white justify-start gap-1 items-center w-2000 h-full">
+                <div className="flex flex-col bg-white justify-start gap-1 items-center w-1600 h-full">
 
 
                     <div className="w-full">
-                        <TopBar/>
+                        <TopBar loginedUser={loginedUser}/>
                     </div>
 
                     {/*구분선 검색*/}
@@ -138,12 +158,15 @@ export default function BoardAllPage() {
                         />
                     </div>
 
+                    <div>
+                        {loginedUser && loginedUser.role !== "ADMIN" && <ChatLauncher />}
+                    </div>
 
                 </div>
 
                 {/* 우측 여백 공간 */}
                 <div className="bg-gray-50 w-full h-full">
-                    <h3>section 3</h3>
+
                 </div>
 
 

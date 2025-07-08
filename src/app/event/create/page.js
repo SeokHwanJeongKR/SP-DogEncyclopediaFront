@@ -1,12 +1,15 @@
 'use client'
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TopBar from "@/components/TopBar";
 import {createEvent} from "@/service/EventService";
+import {getMemberInfo} from "@/service/loginService";
+import {useRouter} from "next/navigation";
 
 
 export default function AddEvent() {
 
+    const router = useRouter();
 
     const [formData, setFormData] = useState(
         {
@@ -73,13 +76,29 @@ export default function AddEvent() {
         const result = await createEvent(data);
         if (result) {
             alert('등록 성공!');
-            router.push("/");
+            router.push("/main");
         } else {
             alert('등록 실패');
         }
 
 
+
     }
+    const [loginedUser, setLoginedUser] = useState("");
+
+    useEffect(() => {
+        async function loadMember() {
+            try {
+                const user = await getMemberInfo();
+                setLoginedUser(user);
+                console.log(user);
+            } catch (error) {
+                console.log("유저 정보 조회에 실패 했습니다.",error);
+            }
+        }
+
+        loadMember();
+    }, []);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -90,15 +109,15 @@ export default function AddEvent() {
 
                     {/* 왼쪽 여백 공간 */}
                     <div className="bg-white w-full h-full">
-                        <h3>section 1</h3>
+
                     </div>
 
-                    <div className="flex flex-col gap-2 bg-white justify-start items-center w-2000 h-full">
+                    <div className="flex flex-col gap-2 bg-white justify-start items-center w-1600 h-full">
 
 
 
                         <div className="w-full">
-                            <TopBar/>
+                            <TopBar loginedUser={loginedUser}/>
                         </div>
 
                         <div className="h-5">
@@ -191,7 +210,7 @@ export default function AddEvent() {
 
                     {/* 우측 여백 공간 */}
                     <div className="bg-gray-50 w-full h-full">
-                        <h3>section 3</h3>
+
                     </div>
 
 

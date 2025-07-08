@@ -5,7 +5,7 @@ import {getEvent} from "@/service/EventService";
 import {deleteEvent} from "@/service/EventService";
 
 
-export default function EventDetail() {
+export default function EventDetail({loginedUser}) {
 
     const postId = useParams().id;
     const [title, setTitle] = useState("");
@@ -74,19 +74,26 @@ export default function EventDetail() {
                 </div>
 
                 <div className="flex justify-end items-center gap-2 w-50 h-full text-lg font-medium">
-                    <Link href={`/event/${postId}/edit`}>
-                        <p className="flex justify-center items-center">수정하기</p>
-                    </Link>
-                    <button onClick={openModal}>
-                        <p className="flex justify-center items-center">삭제하기</p>
-                    </button>
+                    {(loginedUser.role === "ADMIN") && (
+                        <>
+                            <Link href={`/event/${postId}/edit`}>
+                                <p className="flex justify-center items-center">수정하기</p>
+                            </Link>
+                            <button onClick={openModal}>
+                                <p className="flex justify-center items-center">삭제하기</p>
+                            </button>
+                        </>
+                    )}
+
                     {isOpen && (
                         <div className="fixed inset-0 bg-none flex justify-center items-center z-50">
                             <div
                                 className="bg-white w-150 h-150 border-1 border-orange-300 rounded-xl shadow-lg flex flex-col justify-center items-center">
+
                                 <div className=" w-100 h-100 flex justify-center items-center">
                                     <p>정말로 삭제 하시겠습니까?</p>
                                 </div>
+
                                 <div className="flex justify-center items-center gap-2">
                                     <button onClick={handleDelete}
                                             className="flex justify-center items-center w-52 h-20 bg-orange-200 rounded-xl">

@@ -47,7 +47,7 @@ export async function deletePedia (postId) {
 
 export const getPedia = async (postId) => {
     try {
-        const response = await axiosAuthRequest.get(`${API_ORIGIN}/api/pedia/${postId}`);
+        const response = await axios.get(`${API_ORIGIN}/api/pedia/${postId}`);
         return response.data;
     } catch (error) {
         console.error("게시글 조회 실패",error)

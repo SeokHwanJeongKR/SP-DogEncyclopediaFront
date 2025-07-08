@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {getChatList} from "@/service/ChatService";
 import Link from "next/link";
 import TopBar from "@/components/TopBar";
+import {getMemberInfo} from "@/service/loginService";
 
 
 export default function ChatList() {
@@ -24,6 +25,23 @@ export default function ChatList() {
         fetchData()
     }, []);
 
+
+    const [loginedUser, setLoginedUser] = useState("");
+
+    useEffect(() => {
+        async function loadMember() {
+            try {
+                const user = await getMemberInfo();
+                setLoginedUser(user);
+                console.log(user);
+            } catch (error) {
+                console.log("유저 정보 조회에 실패 했습니다.",error);
+            }
+        }
+
+        loadMember();
+    }, []);
+
     return (
 
         <div className="flex flex-col w-full h-full min-h-screen bg-white">
@@ -33,13 +51,13 @@ export default function ChatList() {
 
                 {/* 왼쪽 여백 공간 */}
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
 
-                <div className="flex flex-col gap-2 bg-white justify-start items-center w-2000 h-full">
+                <div className="flex flex-col gap-2 bg-white justify-start items-center w-1600 h-full">
 
                     <div className="w-full">
-                        <TopBar/>
+                        <TopBar loginedUser={loginedUser}/>
                     </div>
 
                     <div className="w-full h-full flex flex-col">
@@ -74,7 +92,7 @@ export default function ChatList() {
                 </div>
 
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
             </div>
         </div>

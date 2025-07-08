@@ -8,6 +8,7 @@ export default function BoardMain() {
 
     const [posts, setPosts] = useState([]);
 
+
     useEffect(() => {
         async function fetchData() {
             try {

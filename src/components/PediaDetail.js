@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import {useEffect, useState} from "react";
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {deletePedia, getPedia} from "@/service/PediaService";
 
-export default function PediaDetail() {
+export default function PediaDetail({loginedUser}) {
 
     const pediaId = useParams().id;
+    const router = useRouter();
 
     const [name, setName] = useState("");
     const [origin, setOrigin] = useState("");
@@ -115,15 +116,23 @@ export default function PediaDetail() {
                         </div>
 
                         <div className="flex justify-end items-center gap-2 w-80 h-full text-lg font-medium">
-                            <Link href={`/pedia/${pediaId}/edit/request`}>
-                                <p className="flex justify-center items-center">수정요청</p>
-                            </Link>
-                            <Link href={`/pedia/${pediaId}/edit`}>
-                                <p className="flex justify-center items-center">수정하기</p>
-                            </Link>
-                            <button onClick={openModal}>
-                                <p className="flex justify-center items-center">삭제하기</p>
-                            </button>
+                            {(loginedUser.role === "MEMBER") && (
+                                <Link href={`/pedia/${pediaId}/edit/request`}>
+                                    <p className="flex justify-center items-center">수정요청</p>
+                                </Link>
+                            )}
+                            {(loginedUser.role === "ADMIN") && (
+                                <>
+                                    <Link href={`/pedia/${pediaId}/edit`}>
+                                        <p className="flex justify-center items-center">수정하기</p>
+                                    </Link>
+                                    <button onClick={openModal}>
+                                        <p className="flex justify-center items-center">삭제하기</p>
+                                    </button>
+                                </>
+
+                            )}
+
                             {isOpen && (
                                 <div className="fixed inset-0 bg-none flex justify-center items-center z-50">
                                     <div

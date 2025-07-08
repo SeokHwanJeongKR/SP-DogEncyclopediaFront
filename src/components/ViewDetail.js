@@ -3,10 +3,10 @@ import {getMemberInfo, logoutUser} from "@/service/loginService";
 import LoginAndLogout from "@/components/LoginAndLogout";
 import {useEffect, useState} from "react";
 import {changeLike, deletePost, getPost, getTop2Post} from "@/service/PostService";
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {router} from "next/client";
 
-export default function ViewDetail() {
+export default function ViewDetail({loginedUser}) {
 
     const postId = useParams().id;
     const [title, setTitle] = useState("");
@@ -18,7 +18,8 @@ export default function ViewDetail() {
     const [likeCount, setLikeCount] = useState(0);
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-
+    const router = useRouter();
+    const [memberId, setMemberId] = useState("");
     const [userNickname, setUserNickname] = useState("");
     const [userProfileImage, setUserProfileImage] = useState("");
 
@@ -39,6 +40,7 @@ export default function ViewDetail() {
                 const dateTimeFormatted = `${datePart} ${timeOnly}`;
 
                 setUpdateAt(dateTimeFormatted);
+                setMemberId(result.memberId);
                 setUserNickname(result.memberNickname);
                 setUserProfileImage(result.profileUrl);
                 setLikeCount(result.likeCount)
@@ -99,12 +101,17 @@ export default function ViewDetail() {
                             {likeCount}
                         </div>
                     </div>
-                    <Link href={`/board/${postId}/edit`} className="w-full h-full">
-                        <p className="flex justify-center items-center">수정하기</p>
-                    </Link>
-                    <button onClick={openModal} className="w-full h-full">
-                        <p className="flex justify-center items-center">삭제하기</p>
-                    </button>
+                    {(loginedUser.id === memberId) && (
+                        <>
+                            <Link href={`/board/${postId}/edit`} className="w-full h-full">
+                                <p className="flex justify-center items-center">수정하기</p>
+                            </Link>
+                            <button onClick={openModal} className="w-full h-full">
+                                <p className="flex justify-center items-center">삭제하기</p>
+                            </button>
+                        </>
+                    )}
+
                     {isOpen && (
                         <div className="fixed inset-0 bg-none flex justify-center items-center z-50">
                             <div
@@ -181,33 +188,32 @@ export default function ViewDetail() {
 
 
             <div className="flex w-full text-2xl justify-center items-center text-black   h-full ">
-                {isLiked ?
-                    <button
-                        onClick={handleLike}
-                        className="flex justify-center items-center gap-2 w-52 h-20 bg-orange-400 rounded-xl">
-                        <div className="text-red-500">
-                            ❤
-                        </div>
-                        <div className="text-gray-900">
-                            좋아요
-                        </div>
-                    </button> :
-                    <button
-                        onClick={handleLike}
-                        className="flex justify-center items-center gap-2 w-52 h-20 bg-orange-400 rounded-xl">
-                        <div className="text-gray-900">
-                            ♡
-                        </div>
-                        <div className="text-gray-900">
-                            좋아요
-                        </div>
+                {(loginedUser) && (
+                    isLiked ? (
+                            <button
+                                onClick={handleLike}
+                                className="flex justify-center items-center gap-2 w-52 h-20 bg-orange-400 rounded-xl">
+                                <div className="text-red-500">
+                                    ❤
+                                </div>
+                                <div className="text-gray-900">
+                                    좋아요
+                                </div>
+                            </button>
+                    ) : (
+                            <button
+                                onClick={handleLike}
+                                className="flex justify-center items-center gap-2 w-52 h-20 bg-orange-400 rounded-xl">
+                                <div className="text-gray-900">
+                                    ♡
+                                </div>
+                                <div className="text-gray-900">
+                                    좋아요
+                                </div>
 
-                    </button>}
-            </div>
-
-            <hr className="w-full h-px bg-orange-300 border-0 my-2"/>
-
-            <div className="w-full h-60">
+                            </button>
+                    )
+                )}
 
             </div>
 

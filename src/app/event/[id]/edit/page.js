@@ -128,10 +128,10 @@ export default function EditPost() {
 
                     {/* 왼쪽 여백 공간 */}
                     <div className="bg-white w-full h-full">
-                        <h3>section 1</h3>
+
                     </div>
 
-                    <div className="flex flex-col gap-2 bg-white justify-start items-center w-2000 h-full">
+                    <div className="flex flex-col gap-2 bg-white justify-start items-center w-1600 h-full">
 
 
 
@@ -228,7 +228,7 @@ export default function EditPost() {
 
                     {/* 우측 여백 공간 */}
                     <div className="bg-gray-50 w-full h-full">
-                        <h3>section 3</h3>
+
                     </div>
 
 

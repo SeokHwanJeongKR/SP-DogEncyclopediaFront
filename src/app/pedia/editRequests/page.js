@@ -7,11 +7,27 @@ import Board from "@/components/BoardMain";
 import ViewDetail from "@/components/ViewDetail";
 import PediaDetail from "@/components/PediaDetail";
 import AllEditRequest from "@/components/AllEditRequest";
+import {getMemberInfo} from "@/service/loginService";
 
 
 export default function AddPost() {
 
 
+    const [loginedUser, setLoginedUser] = useState("");
+
+    useEffect(() => {
+        async function loadMember() {
+            try {
+                const user = await getMemberInfo();
+                setLoginedUser(user);
+                console.log(user);
+            } catch (error) {
+                console.log("유저 정보 조회에 실패 했습니다.",error);
+            }
+        }
+
+        loadMember();
+    }, []);
 
     return (
 
@@ -22,15 +38,15 @@ export default function AddPost() {
 
                 {/* 왼쪽 여백 공간 */}
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
 
 
-                <div className="flex flex-col gap-2 bg-white justify-start items-center w-2000 h-full">
+                <div className="flex flex-col gap-2 bg-white justify-start items-center w-1600 h-full">
 
 
                     <div className="w-full">
-                        <TopBar/>
+                        <TopBar loginedUser={loginedUser}/>
                     </div>
 
                     <div className="h-5">
@@ -46,7 +62,7 @@ export default function AddPost() {
 
                 {/* 우측 여백 공간 */}
                 <div className="bg-gray-50 w-full h-full">
-                    <h3>section 3</h3>
+
                 </div>
 
 

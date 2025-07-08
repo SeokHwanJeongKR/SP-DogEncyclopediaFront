@@ -1,22 +1,38 @@
 import {useRouter} from "next/navigation";
 import {getMemberInfo, logoutUser} from "@/service/loginService";
-import {useEffect, useState} from "react";
+import { useEffect, useState} from "react";
+
 
 
 
 export default function LoginAndLogout() {
 
     const router = useRouter()
+    const [isOpen, setIsOpen] = useState(false)
+
+    const [user, setUser] = useState("");
+    const [memberName, setMemberName] = useState("");
+    const [memberProfile, setMemberProfile] = useState("");
 
     const handleLogin = () => {
         // 백엔드에서 설정한 OAuth2 리다이렉트 URL
         window.location.href = 'http://localhost:8080/oauth2/authorization/google'
     }
+    const handleOpenLoginModal = () => {
+        setIsOpen(true)
+    }
+    const handleCloseLoginModal = () => {
+        setIsOpen(false)
+    }
+
     const handleLogout = async () => {
         const result = await logoutUser();
         if (result) {
             alert("로그아웃이 성공 했습니다.")
-            router.push("/");
+            setUser("");
+            setMemberName("");
+            setMemberProfile("");
+            router.push("/main");
         } else {
             alert("로그아웃이 실패 했습니다.")
         }
@@ -26,13 +42,13 @@ export default function LoginAndLogout() {
         window.location.href = 'http://localhost:3000/mypage';
     }
 
-    const [memberName, setMemberName] = useState("");
-    const [memberProfile, setMemberProfile] = useState("");
 
     useEffect(() => {
         async function loadMember() {
             try {
+
                 const user = await getMemberInfo();
+                setUser(user);
                 setMemberName(user.nickname);
                 setMemberProfile(user.profileImageUrl);
                 console.log(user);
@@ -43,6 +59,7 @@ export default function LoginAndLogout() {
 
         loadMember();
     }, []);
+
     return (
         <div className="flex justify-end items-center w-full h-full gap-2">
 
@@ -50,7 +67,7 @@ export default function LoginAndLogout() {
             {!memberName && (
                 <button
                     type="button"
-                    onClick={handleLogin}
+                    onClick={handleOpenLoginModal}
                     className="flex justify-center w-20 h-8 items-center bg-white rounded-xl hover:font-semibold"
                 >
                     로그인
@@ -86,6 +103,31 @@ export default function LoginAndLogout() {
 
 
             ) : null}
+
+            {isOpen && (
+                <div className="fixed inset-0 z-50 bg-black/30 flex justify-center items-center">
+                    <div className="bg-white rounded-lg p-6 flex flex-col gap-4 items-center shadow-xl w-150">
+                        <p className="text-xl">처음 가입하시는 분은 자동으로 회원가입이 됩니다.</p>
+                        <br/>
+                        <p>로그인 하시겠습니까?</p>
+                        <br/>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={handleLogin}
+                                className="px-4 py-2 rounded bg-orange-400 text-white hover:bg-orange-500"
+                            >
+                                Google 로그인
+                            </button>
+                            <button
+                                onClick={handleCloseLoginModal}
+                                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                            >
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     )

@@ -7,10 +7,27 @@ import PediaMain from "@/components/PediaMain";
 import EventMain from "@/components/EventMain";
 import SearchBar from "@/components/SearchBar";
 import ChatLauncher from "@/components/ChatLaunche";
+import {useEffect, useState} from "react";
+import {getMemberInfo} from "@/service/loginService";
 
 
-export default function AddPost() {
+export default function Main() {
 
+    const [loginedUser, setLoginedUser] = useState("");
+
+    useEffect(() => {
+        async function loadMember() {
+            try {
+                const user = await getMemberInfo();
+                setLoginedUser(user);
+                console.log(user);
+            } catch (error) {
+                console.log("유저 정보 조회에 실패 했습니다.",error);
+            }
+        }
+
+        loadMember();
+    }, []);
 
 
     return (
@@ -22,18 +39,18 @@ export default function AddPost() {
 
                 {/* 왼쪽 여백 공간 */}
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
 
 
-                <div className="flex flex-col bg-white justify-start gap-1 items-center w-2000 h-full">
+                <div className="flex flex-col bg-white justify-start gap-1 items-center w-1600 h-full">
 
 
-                    <div className="w-full">
-                        <TopBar/>
+                    <div className="w-full z-10">
+                        <TopBar loginedUser =  {loginedUser} />
                     </div>
 
-                    <div className="w-full h-full">
+                    <div className="w-full h-full overflow-hidden">
                         <EventMain/>
                     </div>
 
@@ -65,12 +82,15 @@ export default function AddPost() {
 
                 {/* 우측 여백 공간 */}
                 <div className="bg-gray-50 w-full h-full">
-                <h3>section 3</h3>
+
                 </div>
 
 
             </div>
-            <ChatLauncher/>
+            <div>
+                {loginedUser && loginedUser.role !== "ADMIN" && <ChatLauncher />}
+            </div>
+
 
         </div>
 

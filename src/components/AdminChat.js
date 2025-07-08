@@ -84,10 +84,10 @@ export default function AdminChat() {
 
                 {/* 왼쪽 여백 공간 */}
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
 
-                <div className="flex flex-col gap-2 bg-white justify-start items-center w-2000 h-full">
+                <div className="flex flex-col gap-2 bg-white justify-start items-center w-1600 h-full">
 
                     <div className="w-full">
                         <TopBar/>
@@ -136,7 +136,7 @@ export default function AdminChat() {
                 </div>
 
                 <div className="bg-white w-full h-full">
-                    <h3>section 1</h3>
+
                 </div>
             </div>
         </div>

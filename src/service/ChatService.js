@@ -1,5 +1,4 @@
 import {axiosAuthRequest} from "@/service/AxiosConfig";
-import axios from "axios";
 const API_ORIGIN = "http://localhost:8080";
 
 export async function openChat() {
