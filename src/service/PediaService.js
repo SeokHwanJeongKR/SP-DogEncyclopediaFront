@@ -130,3 +130,14 @@ export const editRequestAccept = async (formData) => {
         throw new Error(" 백과 수정 요청 승인 실패")
     }
 }
+
+export const deleteRequestAccept = async (requestId) => {
+    try {
+        const response = await axiosAuthRequest.delete(`${API_ORIGIN}/api/pedia/editRequest/accept/${requestId}`)
+        return response.data;
+
+    } catch (error) {
+        console.log(" 백과 수정 요청 삭제 실패",error)
+        throw new Error(" 백과 수정 요청 삭제 실패")
+    }
+}

@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import TopBar from "@/components/TopBar";
 import {useRouter, useSearchParams} from 'next/navigation';
-import {editRequestAccept, getEditRequest} from "@/service/PediaService";
+import {deleteRequestAccept, editRequestAccept, getEditRequest} from "@/service/PediaService";
 import {getMemberInfo} from "@/service/loginService";
 
 
@@ -63,6 +63,19 @@ export default function EditPost() {
             alert('수정 요청 승인 실패');
         }
 
+    }
+    const handleDelete = async (e) => {
+        e.preventDefault();
+
+        try {
+
+            const result = await deleteRequestAccept(requestId);
+            console.log(result);
+
+            router.push("/pedia/editRequests?page=1")
+        } catch (error) {
+            console.error("삭제 실패",error);
+        }
     }
 
     const [loginedUser, setLoginedUser] = useState("");
@@ -158,6 +171,13 @@ export default function EditPost() {
 
                         {/* 등록 버튼 */}
                         <div className="flex w-full justify-end items-center gap-2 p-2">
+                            <div
+                                className="flex justify-center items-center mt-3 w-25 bg-orange-300 border-orange-300 border-2 text-black py-2 rounded-lg hover:bg-orange-400 transition hover:cursor-pointer "
+                                onClick={handleDelete}
+                            >
+                                삭제
+                            </div>
+
                             <button
                                 type="submit"
                                 className="mt-3 w-25 bg-orange-300 border-orange-300 border-2 text-black py-2 rounded-lg hover:bg-orange-400 transition hover:cursor-pointer "
