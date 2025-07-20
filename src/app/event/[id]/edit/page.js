@@ -40,8 +40,6 @@ export default function EditPost() {
 
                 }));
 
-                console.log("postId :", postId);
-
 
             } catch (err) {
                 console.error("게시글 불러오기 실패", err);

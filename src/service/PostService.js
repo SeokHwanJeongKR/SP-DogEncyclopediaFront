@@ -1,7 +1,7 @@
 import {axiosAuthRequest} from "@/service/AxiosConfig";
 import axios from "axios";
 
-const API_ORIGIN = "http://localhost:8080";
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
 
 export async function createPost(formData) {
     try {
@@ -14,7 +14,9 @@ export async function createPost(formData) {
         return response.data;
 
     } catch (error) {
-        console.log("게시글 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("게시글 작성 실패 ", error)
+        }
         throw new Error("게시글 작성 실패")
     }
 }
@@ -29,7 +31,9 @@ export async function updatePost(formData,postId) {
         return response.data;
 
     } catch (error) {
-        console.log("게시글 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("게시글 작성 실패 ", error)
+        }
         throw new Error("게시글 작성 실패")
     }
 }
@@ -39,7 +43,9 @@ export async function deletePost(postId) {
         return response.data
 
     } catch (error) {
-        console.error("게시글 삭제 실패", error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("게시글 삭제 실패", error)
+        }
         throw new Error("게시글 삭제 실패");
     }
 }
@@ -49,7 +55,9 @@ export const getTop2Post = async () => {
         const response = await axios.get(`${API_ORIGIN}/api/board/top2`);
         return response.data;
     } catch (error) {
-        console.error("Updated Top2 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("Updated Top2 조회 실패", error)
+        }
         throw new Error("Updated Top2 조회  실패");
     }
 
@@ -63,7 +71,9 @@ export const getPost = async (postId) => {
         });
         return response.data;
     } catch (error) {
-        console.error("게시글 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("게시글 조회 실패", error)
+        }
         throw new Error("게시글 조회  실패");
     }
 
@@ -74,7 +84,9 @@ export const getAllPost = async (page) => {
         const response = await axios.get(`${API_ORIGIN}/api/board/all/${page}`);
         return response.data;
     } catch (error) {
-        console.error("전체 게시글 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("전체 게시글 조회 실패", error)
+        }
         throw new Error("전체 게시글 조회  실패");
     }
 
@@ -86,7 +98,9 @@ export const changeLike = async (postId) => {
         return response.data;
 
     } catch (error) {
-        console.log("좋아요 수정 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("좋아요 수정 실패 ", error)
+        }
         throw new Error("좋아요 수정 실패")
     }
 

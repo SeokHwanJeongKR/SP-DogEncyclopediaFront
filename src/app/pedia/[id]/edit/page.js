@@ -8,12 +8,12 @@ import {useRouter} from "next/navigation";
 import {getPedia, updatePedia} from "@/service/PediaService";
 import {getMemberInfo} from "@/service/loginService";
 
+
 export default function EditPost() {
 
     const router = useRouter();
 
     const pediaId = useParams().id;
-    console.log(pediaId);
 
     const [baseData, setBaseData] = useState(null);
 
@@ -60,11 +60,11 @@ export default function EditPost() {
 
                 }));
 
-                console.log("pediaId :", pediaId);
-
 
             } catch (err) {
-                console.error("피디아 글 불러오기 실패", err);
+                if (process.env.NODE_ENV === "development") {
+                    console.error("피디아 글 불러오기 실패", err);
+                }
             }
         };
 
@@ -209,9 +209,11 @@ export default function EditPost() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
+
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 

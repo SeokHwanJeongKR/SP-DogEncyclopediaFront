@@ -15,7 +15,9 @@ export default function TopBar({loginedUser}) {
             const result = await getLogo()
             const url = result.logo.url;
             setLogo(url);
-            console.log("top bar logo" + url);
+            if (process.env.NODE_ENV === "development") {
+                console.log("top bar logo" + url);
+            }
         }
         fetchData();
     },[])

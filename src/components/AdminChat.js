@@ -36,8 +36,10 @@ export default function AdminChat() {
 
     useEffect(() => {
         if (!roomId) return;
-        const socket = new SockJS('http://localhost:8080/chat');
+        const socket = new SockJS('https://api.mungpedia.kr/chat');
         const client = new Client({
+
+
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
             onConnect: () => {

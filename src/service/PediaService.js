@@ -1,7 +1,7 @@
 import {axiosAuthRequest} from "@/service/AxiosConfig";
 import axios from "axios";
 
-const API_ORIGIN = "http://localhost:8080";
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
 
 export async function createPedia(formData) {
     try {
@@ -14,7 +14,9 @@ export async function createPedia(formData) {
         return response.data;
 
     } catch (error) {
-        console.log("게시글 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("게시글 작성 실패 ", error)
+        }
         throw new Error("게시글 작성 실패")
     }
 }
@@ -29,7 +31,9 @@ export async function updatePedia (formData,postId) {
         return response.data;
 
     } catch (error) {
-        console.log("게시글 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("게시글 작성 실패 ", error)
+        }
         throw new Error("게시글 작성 실패")
     }
 }
@@ -39,7 +43,9 @@ export async function deletePedia (postId) {
         return response.data
 
     } catch (error) {
-        console.error("게시글 삭제 실패", error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("게시글 삭제 실패", error)
+        }
         throw new Error("게시글 삭제 실패");
     }
 }
@@ -50,7 +56,9 @@ export const getPedia = async (postId) => {
         const response = await axios.get(`${API_ORIGIN}/api/pedia/${postId}`);
         return response.data;
     } catch (error) {
-        console.error("게시글 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("게시글 조회 실패", error)
+        }
         throw new Error("게시글 조회  실패");
     }
 
@@ -61,7 +69,9 @@ export const getTop12Pedia = async () => {
         const response = await axios.get(`${API_ORIGIN}/api/pedia/top12`);
         return response.data;
     } catch (error) {
-        console.error("Top12 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("Top12 조회 실패", error)
+        }
         throw new Error("Top12 조회  실패");
     }
 
@@ -72,7 +82,9 @@ export const getAllPedia = async (page) => {
         const response = await axios.get(`${API_ORIGIN}/api/pedia/all/${page}`);
         return response.data;
     } catch (error) {
-        console.error("전체 게시글 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("전체 게시글 조회 실패", error)
+        }
         throw new Error("전체 게시글 조회  실패");
     }
 
@@ -89,7 +101,9 @@ export async function createPediaEditRequest(formData) {
         return response.data;
 
     } catch (error) {
-        console.log("게시글 수정 요청 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("게시글 수정 요청 실패 ", error)
+        }
         throw new Error("게시글 수정 요청  실패")
     }
 }
@@ -100,7 +114,9 @@ export const getAllEditRequests = async (page) => {
         const response = await axiosAuthRequest.get(`${API_ORIGIN}/api/pedia/editRequest/all/${page}`);
         return response.data;
     } catch (error) {
-        console.log("모든 백과 수정 요청 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("모든 백과 수정 요청 조회 실패", error)
+        }
         throw new Error("모든 백과 수정 요청 조회 실패")
     }
 }
@@ -110,7 +126,9 @@ export const getEditRequest = async (id) => {
         const response = await axiosAuthRequest.get(`${API_ORIGIN}/api/pedia/editRequest/${id}`);
         return response.data;
     } catch (error) {
-        console.log(" 백과 수정 요청 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log(" 백과 수정 요청 조회 실패", error)
+        }
         throw new Error(" 백과 수정 요청 조회 실패")
     }
 }
@@ -126,7 +144,9 @@ export const editRequestAccept = async (formData) => {
 
         return response.data;
     } catch (error) {
-        console.log(" 백과 수정 요청 승인 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log(" 백과 수정 요청 승인 실패", error)
+        }
         throw new Error(" 백과 수정 요청 승인 실패")
     }
 }
@@ -137,7 +157,9 @@ export const deleteRequestAccept = async (requestId) => {
         return response.data;
 
     } catch (error) {
-        console.log(" 백과 수정 요청 삭제 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log(" 백과 수정 요청 삭제 실패", error)
+        }
         throw new Error(" 백과 수정 요청 삭제 실패")
     }
 }

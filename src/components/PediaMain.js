@@ -5,20 +5,20 @@ import {useEffect, useState} from "react";
 import {getTop2Post} from "@/service/PostService";
 import {getTop12Pedia} from "@/service/PediaService";
 
+
 export default function PediaMain() {
 
     const [pedias, setPosts] = useState([]);
+    const baseUrl = `https://mungpedia.kr`
 
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const result = await getTop12Pedia();
+
                 const pedias = result.pedias;
                 const images = result.images;
-
-                console.log("pedias:", pedias);
-                console.log("images:", images);
 
                 const imageMap = new Map(
                     images
@@ -27,10 +27,13 @@ export default function PediaMain() {
                 );
 
                 pedias.forEach((pedia) => {
-                    console.log("pedia id:", pedia.id);
+                    if (process.env.NODE_ENV === "development") {
+                        console.log("pedia id:", pedia.id);
+                    }
                 });
-
-                console.log(imageMap)
+                if (process.env.NODE_ENV === "development") {
+                    console.log(imageMap)
+                }
                 // 게시글 + 이미지 병합
 
                 //posts.map을 하면 기존 posts를 순회하면서 새로운 배열을 만들수 있다
@@ -43,8 +46,9 @@ export default function PediaMain() {
                     //ImageUrl이라는 필드를 생성하며 get(postId)가 없을 경우 null을 부여한다.
                     imageUrl: imageMap.get(pedia.id) || null,
                 }));
-
-                console.log(pediaWithImage);
+                if (process.env.NODE_ENV === "development") {
+                    console.log(pediaWithImage);
+                }
 
                 setPosts(pediaWithImage);
             } catch (error) {
@@ -64,7 +68,7 @@ export default function PediaMain() {
                     <div className="flex justify-center items-center">
                         강아지 백과
                     </div>
-                    <Link href={`http://localhost:3000/pedia/all?page=1`}>
+                    <Link href={`${baseUrl}/pedia/all?page=1`}>
                         <div className=" p-2 flex justify-center items-center text-gray-500 text-xs cursor-pointer">
                             +더보기
                         </div>

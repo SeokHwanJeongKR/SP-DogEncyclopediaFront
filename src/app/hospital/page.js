@@ -7,6 +7,7 @@ import Script from "next/script";
 import ChatLauncher from "@/components/ChatLaunche";
 import {getMemberInfo} from "@/service/loginService";
 
+
 export default function Calculator() {
 
     const [loaded, setLoaded] = useState(false);
@@ -133,9 +134,11 @@ export default function Calculator() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
+
             } catch (error) {
+                if (process.env.NODE_ENV === "development") {
                 console.log("유저 정보 조회에 실패 했습니다.",error);
+                }
             }
         }
 
@@ -164,7 +167,7 @@ export default function Calculator() {
                         근처 동물 병원 조회
                     </div>
 
-                    <div className="flex justify-center items-center w-full h-full">
+                    <div className="flex flex-col justify-center items-center w-full h-full gap-2">
                         <div className="flex justify-center items-center w-[800px] h-[600px] bg-slate-100">
 
                             <>
@@ -179,6 +182,11 @@ export default function Calculator() {
                                 <div id="map" className="w-[800px] h-[600px] bg-slate-100"></div>
                             </>
 
+                        </div>
+                        <div className="flex justify-end items-center  w-[800px] h-full text-gray-500 text-xs">
+                            <p>
+                                위치 정보 제공에 동의 하지 않으면 제대로 된 위치가 제공되지 않습니다.
+                            </p>
                         </div>
                     </div>
 

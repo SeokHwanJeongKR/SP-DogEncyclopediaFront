@@ -1,3 +1,5 @@
+'use client'
+
 
 import {useEffect, useState} from "react";
 import {getAllEditRequests} from "@/service/PediaService";
@@ -15,7 +17,6 @@ export default function AllEditRequest() {
         async function fetchData() {
             try {
                 const result = await getAllEditRequests(page);
-                console.log("result = " , result);
 
                 if (result) {
                     setResult(result);

@@ -2,7 +2,7 @@ import {axiosAuthRequest} from "@/service/AxiosConfig";
 import axios from "axios";
 
 
-const API_ORIGIN = "http://localhost:8080";
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
 
 export const getSearchResult = async (keyword) => {
     try {
@@ -11,7 +11,9 @@ export const getSearchResult = async (keyword) => {
         });
         return response.data;
     } catch (error) {
-        console.error("검색 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("검색 실패", error)
+        }
         throw new Error("검색 실패");
     }
 

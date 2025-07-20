@@ -8,12 +8,12 @@ import {useRouter} from "next/navigation";
 import {createPediaEditRequest, getPedia, updatePedia} from "@/service/PediaService";
 import {getMemberInfo} from "@/service/loginService";
 
+
 export default function EditPost() {
 
     const router = useRouter();
 
     const pediaId = useParams().id;
-    console.log(pediaId);
 
     const [target, setTarget] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -77,8 +77,9 @@ export default function EditPost() {
                     history: result.history || ""
 
                 }));
-
-                console.log("pediaId :", pediaId);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("pediaId :", pediaId);
+                }
 
 
             } catch (err) {
@@ -121,7 +122,9 @@ export default function EditPost() {
         });
         data.append("data", jsonBlob);
 
-        console.log(data);
+        if (process.env.NODE_ENV === "development") {
+            console.log(data);
+        }
 
         const result = await createPediaEditRequest(data);
         if (result) {
@@ -142,9 +145,10 @@ export default function EditPost() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 

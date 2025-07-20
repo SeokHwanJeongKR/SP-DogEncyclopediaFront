@@ -15,11 +15,7 @@ export default function ChatList() {
         async function fetchData() {
             const result = await getChatList();
 
-            setRoomList(result.roomIds);
-
-            console.log("result =",result);
-            console.log("roomList = " ,result?.roomIds);
-
+            setRoomList(result?.roomIds);
 
         }
         fetchData()
@@ -33,7 +29,6 @@ export default function ChatList() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
                 console.log("유저 정보 조회에 실패 했습니다.",error);
             }

@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {getMemberInfo} from "@/service/loginService";
 import ChatLauncher from "@/components/ChatLaunche";
 
+
 export default function Calculator() {
         
     const [birthday, setBirthday] = useState("");
@@ -24,9 +25,10 @@ export default function Calculator() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 
@@ -120,7 +122,7 @@ export default function Calculator() {
                                 </tbody>
                             </table>
                             <div className="flex w-full h-10 justify-end items-center p-2 text-gray-400 text-sm">
-                                * 이 정보는 Youtube "설채현의 놀로와" 님의 영상을 기반으로 만들었습니다.
+                                * 이 정보는 Youtube &quot;설채현의 놀로와&quot; 님의 영상을 기반으로 만들었습니다.
                             </div>
                         </div>
 

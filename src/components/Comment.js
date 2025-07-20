@@ -26,9 +26,9 @@ export default function Comment({loginedUser}) {
                 const result = await getCommentList(postId);
 
                 setComments(result.comments);
-                console.log("comments = ", result.comments);
 
             } catch (error) {
+
                 console.log("댓글 조회 실패", error);
             }
         }
@@ -48,9 +48,6 @@ export default function Comment({loginedUser}) {
         };
 
         const result = await createComment(data);
-
-
-        console.log("reuslt = ",result);
 
         setComment("");
         setParentCommentId(null);
@@ -73,8 +70,6 @@ export default function Comment({loginedUser}) {
 
         const result = await createComment(data);
 
-        console.log("reuslt = ",result);
-
         setComment("");
 
         try {
@@ -91,7 +86,6 @@ export default function Comment({loginedUser}) {
 
         try {
             const result = await deleteComment(commentId);
-            console.log("reuslt = ",result);
 
             if (result) {
                 const updated = await getCommentList(postId);
@@ -121,8 +115,6 @@ export default function Comment({loginedUser}) {
 
         try  {
             const result = await updateComment(commentId ,data);
-            console.log("reuslt = ",result);
-
 
             setisOpenEdit(false);
 

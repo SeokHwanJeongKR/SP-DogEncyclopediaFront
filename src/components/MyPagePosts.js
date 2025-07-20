@@ -20,8 +20,6 @@ export default function MyPagePosts() {
 
             try {
                 const result = await getAllMyPosts(allPostSelectedPage);
-                console.log("myPosts = ", result);
-                console.log("allPostSelectedPage = ",allPostSelectedPage)
 
                 if (result) {
                     setMyPosts(result);
@@ -43,9 +41,6 @@ export default function MyPagePosts() {
 
             try {
                 const result2 = await getAllMyLikedPosts(LikedPostSelectedPage);
-
-                console.log("result2 = ", result2);
-                console.log("LikedPostSelectedPage = ",LikedPostSelectedPage)
 
                 if (result2) {
                     setLikedPosts(result2);

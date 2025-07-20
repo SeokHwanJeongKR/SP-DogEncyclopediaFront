@@ -28,8 +28,6 @@ export default function ViewDetail({loginedUser}) {
             try {
                 const result = await getPost(postId);
 
-                console.log(result);
-
                 setTitle(result.title || "");
                 setContent(result.content || "");
                 setImages(result.images)
@@ -45,7 +43,6 @@ export default function ViewDetail({loginedUser}) {
                 setUserProfileImage(result.profileUrl);
                 setLikeCount(result.likeCount)
                 setIsLiked(result.isLiked)
-                console.log("is Liked = " ,isLiked)
 
             } catch (error) {
                 console.error("데이터 불러오기 실패:", error);
@@ -69,7 +66,6 @@ export default function ViewDetail({loginedUser}) {
 
         const result = await changeLike(postId);
         if (result) {
-            console.log("is Liked = " ,isLiked)
             setLikeCount(result.likeCount)
             setIsLiked(result.isLiked)
             alert("좋아요 상태 변경에 성공 했습니다.")

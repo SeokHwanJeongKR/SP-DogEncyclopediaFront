@@ -26,7 +26,7 @@ export default function NearHospital() {
                     level: 5,
                 });
 
-                console.log("✅ 지도 생성 성공");
+                console.log("지도 생성 성공");
             }, 100); // 0.1초 딜레이
         });
     }, [loaded]);
@@ -37,7 +37,7 @@ export default function NearHospital() {
                 src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=58bc6414252549274c76e1de1a4140c5&autoload=false`}
                 strategy="afterInteractive"
                 onLoad={() => {
-                    console.log("카카오 스크립트 로드됨");
+                    console.log("카카오 스크립트 로드 완료");
                     setLoaded(true);
                 }}
             />

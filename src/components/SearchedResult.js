@@ -3,25 +3,33 @@
 import { useEffect, useState } from "react";
 import { getSearchResult } from "@/service/SearchService";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
 
-export default function SearchedResult({ keyword }) {
+
+export default function SearchedResult() {
     const [pediaData, setPediaData] = useState("검색된 백과 정보가 없습니다.");
     const [boardData, setBoardData] = useState("검색된 게시판이 없습니다.");
+    const searchParams = useSearchParams();
+    const keyword = searchParams.get("keyword");
 
     useEffect(() => {
         async function fetchData() {
-            console.log("키워드" +keyword);
+
             const result = await getSearchResult(keyword);
 
-            console.log("pediaResult Length = " + result.pediaResults?.length);
+            if (process.env.NODE_ENV === "development") {
+                console.log("키워드" +keyword);
+                console.log("pediaResult Length = " + result.pediaResults?.length);
+                console.log("pediaData"+pediaData);
+                console.log("boardResult Length = " + result.boardResults?.length);
+            }
+
             if (result.pediaResults?.length > 0) {
                 setPediaData(result.pediaResults.slice(0, 5));
             } else {
                 setPediaData("검색된 백과 정보가 없습니다.");
             }
-            console.log("pediaData"+pediaData);
 
-            console.log("boardResult Length = " + result.boardResults?.length);
             if (result.boardResults?.length > 0) {
                 setBoardData(result.boardResults.slice(0, 5));
             } else {
@@ -119,11 +127,11 @@ export default function SearchedResult({ keyword }) {
                                             )}
                                         </div>
                                         <div className="flex flex-col justify-start items-center">
-                                            <div className="text-2xl font-semibold">
+                                            <div className=" w-full h-full text-2xl font-semibold">
                                                 {board.title}
                                             </div>
-                                            <div>
-                                                {board.content}
+                                            <div className=" w-full h-full text-xl">
+                                                {board.content.length > 50 ? board.content.slice(0, 50) + '...' : board.content}
                                             </div>
                                         </div>
                                     </div>

@@ -1,6 +1,7 @@
 import {axiosAuthRequest} from "@/service/AxiosConfig";
 import axios from "axios";
-const API_ORIGIN = "http://localhost:8080";
+
+const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
 
 export async function createEvent(formData) {
     try {
@@ -13,7 +14,9 @@ export async function createEvent(formData) {
         return response.data;
 
     } catch (error) {
-        console.log("이벤트 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("이벤트 작성 실패 ", error)
+        }
         throw new Error("이벤트 작성 실패")
     }
 }
@@ -28,7 +31,9 @@ export async function updateEvent(formData,postId) {
         return response.data;
 
     } catch (error) {
-        console.log("이벤트 작성 실패 ",error)
+        if (process.env.NODE_ENV === "development") {
+            console.log("이벤트 작성 실패 ", error)
+        }
         throw new Error("이벤트 작성 실패")
     }
 }
@@ -38,7 +43,9 @@ export async function deleteEvent(postId) {
         return response.data
 
     } catch (error) {
-        console.error("이벤트 삭제 실패", error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("이벤트 삭제 실패", error)
+        }
         throw new Error("이벤트 삭제 실패");
     }
 }
@@ -48,7 +55,9 @@ export const getAllEvent = async () => {
         const response = await axios.get(`${API_ORIGIN}/api/event/allEvent`);
         return response.data;
     } catch (error) {
-        console.error("전체 이벤트 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("전체 이벤트 조회 실패", error)
+        }
         throw new Error("전체 이벤트 조회  실패");
     }
 
@@ -59,7 +68,9 @@ export const getEvent = async (postId) => {
         const response = await axios.get(`${API_ORIGIN}/api/event/${postId}`);
         return response.data;
     } catch (error) {
-        console.error("이벤트 조회 실패",error)
+        if (process.env.NODE_ENV === "development") {
+            console.error("이벤트 조회 실패", error)
+        }
         throw new Error("이벤트 조회  실패");
     }
 

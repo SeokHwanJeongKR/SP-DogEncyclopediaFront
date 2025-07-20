@@ -6,13 +6,15 @@ import TopBar from "@/components/TopBar";
 import { useParams } from 'next/navigation';
 import {useRouter} from "next/navigation";
 
+
 export default function EditPost() {
 
     const router = useRouter();
 
     const postId = useParams().id;
-    console.log(postId);
-
+    if (process.env.NODE_ENV === "development") {
+        console.log(postId);
+    }
     const [baseData, setBaseData] = useState(null);
 
     const [formData, setFormData] = useState(
@@ -31,6 +33,9 @@ export default function EditPost() {
         const fetchPost = async () => {
             try {
                 const result = await getPost(postId);
+
+                console.log("result = ",result);
+
                 setBaseData(result); // 기존 data 저장
 
                 setFormData((prev) => ({
@@ -39,12 +44,14 @@ export default function EditPost() {
                     content: result.content || "",
 
                 }));
-
-                console.log("postId :", postId);
-
+                if (process.env.NODE_ENV === "development") {
+                    console.log("postId :", postId);
+                }
 
             } catch (err) {
-                console.error("게시글 불러오기 실패", err);
+                if (process.env.NODE_ENV === "development") {
+                    console.error("게시글 불러오기 실패", err);
+                }
             }
         };
 

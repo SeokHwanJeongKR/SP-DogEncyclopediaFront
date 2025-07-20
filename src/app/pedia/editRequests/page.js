@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import { getTop2Post} from "@/service/PostService";
 import TopBar from "@/components/TopBar";
 import Board from "@/components/BoardMain";
@@ -8,6 +8,7 @@ import ViewDetail from "@/components/ViewDetail";
 import PediaDetail from "@/components/PediaDetail";
 import AllEditRequest from "@/components/AllEditRequest";
 import {getMemberInfo} from "@/service/loginService";
+
 
 
 export default function AddPost() {
@@ -20,9 +21,10 @@ export default function AddPost() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 
@@ -56,7 +58,9 @@ export default function AddPost() {
                     <hr className="w-full h-px bg-orange-300 border-0 my-2"/>
 
                     <div className="w-full h-auto">
-                        <AllEditRequest/>
+                        <Suspense fallback={<p>로딩 중입니다...</p>}>
+                            <AllEditRequest/>
+                        </Suspense>
                     </div>
                 </div>
 

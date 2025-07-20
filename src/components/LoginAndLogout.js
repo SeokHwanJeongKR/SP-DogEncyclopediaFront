@@ -2,11 +2,9 @@ import {useRouter} from "next/navigation";
 import {getMemberInfo, logoutUser} from "@/service/loginService";
 import { useEffect, useState} from "react";
 
-
-
-
 export default function LoginAndLogout() {
 
+    const API_ORIGIN = process.env.NEXT_PUBLIC_API_ORIGIN;
     const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
 
@@ -16,8 +14,9 @@ export default function LoginAndLogout() {
 
     const handleLogin = () => {
         // 백엔드에서 설정한 OAuth2 리다이렉트 URL
-        window.location.href = 'http://localhost:8080/oauth2/authorization/google'
+        window.location.href = `${API_ORIGIN}/oauth2/authorization/google`
     }
+
     const handleOpenLoginModal = () => {
         setIsOpen(true)
     }
@@ -39,7 +38,7 @@ export default function LoginAndLogout() {
     }
 
     const handleMypage = () => {
-        window.location.href = 'http://localhost:3000/mypage';
+        router.push("/mypage");
     }
 
 
@@ -51,9 +50,10 @@ export default function LoginAndLogout() {
                 setUser(user);
                 setMemberName(user.nickname);
                 setMemberProfile(user.profileImageUrl);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 

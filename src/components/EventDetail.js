@@ -25,8 +25,6 @@ export default function EventDetail({loginedUser}) {
             try {
                 const result = await getEvent(postId);
 
-                console.log(result);
-
                 setTitle(result.title || "");
                 setContent(result.content || "");
                 setImages(result.images)

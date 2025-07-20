@@ -45,8 +45,6 @@ export default function PediaDetail({loginedUser}) {
             try {
                 const result = await getPedia(pediaId);
 
-                console.log(result);
-
                 setName(result.name || "");
                 setOrigin(result.origin || "");
                 setSize(result.size || "");

@@ -8,6 +8,7 @@ import {getMemberInfo} from "@/service/loginService";
 import {useEffect, useState} from "react";
 
 
+
 export default function GetEvent() {
 
     const [loginedUser, setLoginedUser] = useState("");
@@ -17,9 +18,10 @@ export default function GetEvent() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 

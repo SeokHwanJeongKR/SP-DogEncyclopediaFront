@@ -4,10 +4,12 @@ import LoginAndLogout from "@/components/LoginAndLogout";
 import {useEffect, useState} from "react";
 import {getTop2Post} from "@/service/PostService";
 
+
 export default function BoardMain() {
 
     const [posts, setPosts] = useState([]);
 
+    const baseUrl = `https://mungpedia.kr`
 
     useEffect(() => {
         async function fetchData() {
@@ -16,8 +18,6 @@ export default function BoardMain() {
                 const posts = result.posts;
                 const images = result.images;
 
-                console.log("posts:", posts);
-                console.log("images:", images);
 
                 const imageMap = new Map(
                     images
@@ -26,10 +26,14 @@ export default function BoardMain() {
                 );
 
                 posts.forEach((post) => {
-                    console.log("post id:", post.id);
+                    if (process.env.NODE_ENV === "development") {
+                        console.log("post id:", post.id);
+                    }
                 });
 
-                console.log(imageMap)
+                if (process.env.NODE_ENV === "development") {
+                    console.log(imageMap)
+                }
                 // 게시글 + 이미지 병합
 
                 //posts.map을 하면 기존 posts를 순회하면서 새로운 배열을 만들수 있다
@@ -42,12 +46,15 @@ export default function BoardMain() {
                     //ImageUrl이라는 필드를 생성하며 get(postId)가 없을 경우 null을 부여한다.
                     imageUrl: imageMap.get(post.id) || null,
                 }));
-
-                console.log(postsWithImage);
+                if (process.env.NODE_ENV === "development") {
+                    console.log(postsWithImage);
+                }
 
                 setPosts(postsWithImage);
             } catch (error) {
-                console.error("데이터 불러오기 실패:", error);
+                if (process.env.NODE_ENV === "development") {
+                    console.error("데이터 불러오기 실패:", error);
+                }
             }
 
         }
@@ -63,7 +70,7 @@ export default function BoardMain() {
                     <div className="flex justify-center items-center">
                         커뮤니티
                     </div>
-                    <Link href={`http://localhost:3000/board/all?page=1`}>
+                    <Link href={`${baseUrl}/board/all?page=1`}>
                         <div className=" p-2 flex justify-center items-center text-gray-500 text-xs cursor-pointer">
                             +더보기
                         </div>
@@ -107,7 +114,7 @@ export default function BoardMain() {
                                     {post.title}
                                 </h2>
                                 <p className="text-gray-700 text-sm">
-                                    {post.content}
+                                    {post.content.length > 50 ? post.content.slice(0, 50) + '...' : post.content}
                                 </p>
                             </div>
                         </div>

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import {getMemberInfo} from "@/service/loginService";
 
 
+
 export default function AddPost() {
 
     const router = useRouter();
@@ -92,9 +93,10 @@ export default function AddPost() {
             try {
                 const user = await getMemberInfo();
                 setLoginedUser(user);
-                console.log(user);
             } catch (error) {
-                console.log("유저 정보 조회에 실패 했습니다.",error);
+                if (process.env.NODE_ENV === "development") {
+                    console.log("유저 정보 조회에 실패 했습니다.", error);
+                }
             }
         }
 

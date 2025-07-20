@@ -7,10 +7,10 @@ import EventMain from "@/components/EventMain";
 import SearchBar from "@/components/SearchBar";
 import PediaMain from "@/components/PediaMain";
 import BoardMain from "@/components/BoardMain";
+import {Suspense} from "react";
 
 export default function SearchPage() {
-    const searchParams = useSearchParams();
-    const keyword = searchParams.get("keyword");
+
 
     return (
         <div className="flex flex-col w-full h-full min-h-screen bg-white">
@@ -40,7 +40,9 @@ export default function SearchPage() {
                     </div>
 
                     <div className="w-full h-full">
-                        <SearchedResult keyword={keyword} />
+                        <Suspense fallback={<p>검색 중입니다...</p>}>
+                            <SearchedResult />
+                        </Suspense>
                     </div>
                 </div>
 
